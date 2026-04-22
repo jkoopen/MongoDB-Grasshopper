@@ -1,0 +1,64 @@
+
+############################
+# .NET / C# build outputs
+############################
+bin/
+obj/
+dist/
+
+# Rider / ReSharper
+.idea/
+*.sln.iml
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# Visual Studio
+.vs/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# NuGet
+**/packages/
+*.nupkg
+*.snupkg
+
+# Test / coverage / benchmarks
+TestResults/
+coverage*/
+*.coverage
+*.coveragexml
+BenchmarkDotNet.Artifacts/
+
+############################
+# Rhino / Grasshopper temp
+############################
+# Rhino backups / autosaves
+*.3dmbak
+*.3dmbak2
+*.3dm~
+
+# Grasshopper autosaves/backups
+*.gh~
+*.ghx~
+*.ghx_backup
+*.ghx.bak
+
+############################
+# OS / tooling noise
+############################
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+
+# Logs / temp
+*.log
+*.tmp
+

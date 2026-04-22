@@ -1,0 +1,114 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TargetExt>.gha</TargetExt>
+    <AssemblyName>MongoDB</AssemblyName>
+    <AssemblyTitle>MongoDB</AssemblyTitle>
+    <Product>MongoDB</Product>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <RhinoMacApp Condition="'$(RhinoMacApp)' == ''">/Applications/Rhino 8.app</RhinoMacApp>
+    <RhinoMacResources>$(RhinoMacApp)/Contents/Frameworks/RhCore.framework/Versions/A/Resources</RhinoMacResources>
+    <GrasshopperMacDir>$(RhinoMacResources)/ManagedPlugIns/GrasshopperPlugin.rhp</GrasshopperMacDir>
+  </PropertyGroup>
+
+  <!-- Windows Rhino 8 default install locations (override via /p:RhinoWinSystemDir=... /p:GrasshopperWinDir=...) -->
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <RhinoWinSystemDir Condition="'$(RhinoWinSystemDir)' == ''">C:\Program Files\Rhino 8\System</RhinoWinSystemDir>
+    <GrasshopperWinDir Condition="'$(GrasshopperWinDir)' == ''">C:\Program Files\Rhino 8\Plug-ins\Grasshopper</GrasshopperWinDir>
+  </PropertyGroup>
+
+  <!-- During development, link the built .gha into the Grasshopper libraries folder to test changes -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <LinkToGrasshopperLibraries Condition="'$(LinkToGrasshopperLibraries)' == ''">true</LinkToGrasshopperLibraries>
+    <GrasshopperLibrariesDir Condition="'$(GrasshopperLibrariesDir)' == ''">$(HOME)/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)/Libraries</GrasshopperLibrariesDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.28.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets/*.png" />
+    <None Remove="assets/*.png" />
+  </ItemGroup>
+
+  <!-- Reference Rhino/Grasshopper assemblies from the installed Rhino 8 app on macOS. -->
+  <ItemGroup Condition="Exists('$(RhinoMacResources)/RhinoCommon.dll')">
+    <Reference Include="RhinoCommon">
+      <HintPath>$(RhinoMacResources)/RhinoCommon.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(RhinoWinSystemDir)\\RhinoCommon.dll')">
+    <Reference Include="RhinoCommon">
+      <HintPath>$(RhinoWinSystemDir)\RhinoCommon.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(RhinoMacResources)/System.Windows.Forms.dll')">
+    <Reference Include="System.Windows.Forms">
+      <HintPath>$(RhinoMacResources)/System.Windows.Forms.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(RhinoWinSystemDir)\\System.Windows.Forms.dll')">
+    <Reference Include="System.Windows.Forms">
+      <HintPath>$(RhinoWinSystemDir)\System.Windows.Forms.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(RhinoMacResources)/System.Drawing.Common.dll')">
+    <Reference Include="System.Drawing.Common">
+      <HintPath>$(RhinoMacResources)/System.Drawing.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(RhinoWinSystemDir)\\System.Drawing.Common.dll')">
+    <Reference Include="System.Drawing.Common">
+      <HintPath>$(RhinoWinSystemDir)\System.Drawing.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(GrasshopperMacDir)/Grasshopper.dll')">
+    <Reference Include="Grasshopper">
+      <HintPath>$(GrasshopperMacDir)/Grasshopper.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GH_IO">
+      <HintPath>$(GrasshopperMacDir)/GH_IO.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="Exists('$(GrasshopperWinDir)\\Grasshopper.dll')">
+    <Reference Include="Grasshopper">
+      <HintPath>$(GrasshopperWinDir)\Grasshopper.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="GH_IO">
+      <HintPath>$(GrasshopperWinDir)\GH_IO.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="LinkGhaIntoGrasshopperLibraries" AfterTargets="Build"
+          Condition="'$(LinkToGrasshopperLibraries)' == 'true' AND '$(OS)' != 'Windows_NT'">
+    <Exec Command="mkdir -p &quot;$(GrasshopperLibrariesDir)&quot;" />
+
+    <ItemGroup>
+      <_GhDeploy Include="$(TargetPath)" />
+      <_GhDeploy Include="$(TargetDir)$(TargetName).deps.json" Condition="Exists('$(TargetDir)$(TargetName).deps.json')" />
+      <_GhDeploy Include="$(TargetDir)*.dll" />
+    </ItemGroup>
+
+    <Exec Command="ln -sf &quot;%(_GhDeploy.Identity)&quot; &quot;$(GrasshopperLibrariesDir)/%(_GhDeploy.Filename)%(_GhDeploy.Extension)&quot;" />
+  </Target>
+</Project>
