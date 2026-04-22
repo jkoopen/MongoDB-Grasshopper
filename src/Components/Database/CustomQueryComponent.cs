@@ -29,20 +29,20 @@ public sealed class MongoCustomQueryComponent : GH_Component
         p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "MongoDB connection", GH_ParamAccess.item);
         p.AddTextParameter(
             "Query",
-            "Q",
+            "Query",
             "Mongo query JSON. Expected format:\n" +
             "{ collection: 'name', filter: { ... }, limit: 100 }\n" +
             "Fields: collection (required), filter (optional), limit (optional).",
             GH_ParamAccess.item,
             "{ collection: '', filter: {}, limit: 100 }");
-        p.AddBooleanParameter("Run", "R", "Trigger - Avoids querying directly", GH_ParamAccess.item, false);
+        p.AddBooleanParameter("Run", "Run", "Trigger - Avoids querying directly", GH_ParamAccess.item, false);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddTextParameter("Log", "L", "Logs/errors", GH_ParamAccess.item);
-        p.AddParameter(new Param_GenericObject(), "Data", "D", "Decoded data, any datatype is returned", GH_ParamAccess.list);
-        p.AddParameter(new MongoAttributesParam(), "Attributes", "A", "Attributes per item", GH_ParamAccess.list);
+        p.AddTextParameter("Log", "Log", "Logs/errors", GH_ParamAccess.item);
+        p.AddParameter(new Param_GenericObject(), "Data", "Data", "Decoded data, any datatype is returned", GH_ParamAccess.list);
+        p.AddParameter(new MongoAttributesParam(), "Attributes", "Attr", "Attributes per item", GH_ParamAccess.list);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

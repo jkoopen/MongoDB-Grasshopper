@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <!-- Build the appropriate target framework per OS:
+         - Windows: use the Windows Desktop reference pack (WinForms/System.Drawing)
+         - macOS: keep net7.0 and reference Rhino-bundled assemblies where needed -->
+    <TargetFramework Condition="'$(OS)' == 'Windows_NT'">net7.0-windows</TargetFramework>
+    <TargetFramework Condition="'$(OS)' != 'Windows_NT'">net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <TargetExt>.gha</TargetExt>
@@ -17,6 +21,7 @@
   <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
     <RhinoWinSystemDir Condition="'$(RhinoWinSystemDir)' == ''">C:\Program Files\Rhino 8\System</RhinoWinSystemDir>
     <GrasshopperWinDir Condition="'$(GrasshopperWinDir)' == ''">C:\Program Files\Rhino 8\Plug-ins\Grasshopper</GrasshopperWinDir>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
   <!-- During development, link the built .gha into the Grasshopper libraries folder to test changes -->
@@ -56,12 +61,7 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('$(RhinoWinSystemDir)\\System.Windows.Forms.dll')">
-    <Reference Include="System.Windows.Forms">
-      <HintPath>$(RhinoWinSystemDir)\System.Windows.Forms.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
+  <!-- On Windows, WinForms comes from the WindowsDesktop reference pack (UseWindowsForms). -->
 
   <ItemGroup Condition="Exists('$(RhinoMacResources)/System.Drawing.Common.dll')">
     <Reference Include="System.Drawing.Common">
@@ -70,12 +70,7 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup Condition="Exists('$(RhinoWinSystemDir)\\System.Drawing.Common.dll')">
-    <Reference Include="System.Drawing.Common">
-      <HintPath>$(RhinoWinSystemDir)\System.Drawing.Common.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
+  <!-- On Windows, System.Drawing comes from the WindowsDesktop reference pack (UseWindowsForms). -->
 
   <ItemGroup Condition="Exists('$(GrasshopperMacDir)/Grasshopper.dll')">
     <Reference Include="Grasshopper">
