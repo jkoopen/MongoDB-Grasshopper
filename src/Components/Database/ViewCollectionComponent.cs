@@ -20,20 +20,20 @@ public class ViewCollectionComponent : GH_Component
     {
     }
 
-    public override Guid ComponentGuid => new Guid("dd9939c4-e666-4b36-b2e2-f1672e11694d");
+    public override Guid ComponentGuid => new("dd9939c4-e666-4b36-b2e2-f1672e11694d");
 
     protected override Bitmap Icon => PluginIcons.Get("component-view-collection.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
         p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "MongoDB database connection to be queried", GH_ParamAccess.item);
-        p.AddTextParameter("Collection", "C", "Collection name", GH_ParamAccess.item);
+        p.AddTextParameter("Collection", "Col", "Collection name", GH_ParamAccess.item);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddIntegerParameter("Entries", "N", "Number of documents in the collection", GH_ParamAccess.item);
-        p.AddNumberParameter("Storage (kB)", "KB", "Storage size reported by MongoDB in kB", GH_ParamAccess.item);
+        p.AddIntegerParameter("Entries", "Ent", "Number of documents in the collection", GH_ParamAccess.item);
+        p.AddNumberParameter("Size (kB)", "Siz", "Storage size reported by MongoDB in kB", GH_ParamAccess.item);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

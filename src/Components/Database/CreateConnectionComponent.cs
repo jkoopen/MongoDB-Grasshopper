@@ -13,26 +13,26 @@ public class ConstructMongoConnectionComponent : GH_Component
     public ConstructMongoConnectionComponent()
         : base("Mongo Connection", "MongoConn", "Creates a reusable MongoDB connection object.", "MongoDB", "Database") { }
 
-    public override Guid ComponentGuid => new Guid("4f5f1ff8-6c24-44f1-b72a-1d4c17ed6f4b");
+    public override Guid ComponentGuid => new("4f5f1ff8-6c24-44f1-b72a-1d4c17ed6f4b");
 
     protected override Bitmap Icon => PluginIcons.Get("component-create-connection.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddTextParameter("Host", "H", "MongoDB host (e.g. localhost)", GH_ParamAccess.item, "localhost");
-        p.AddIntegerParameter("Port", "P", "MongoDB port", GH_ParamAccess.item, 27017);
-        p.AddTextParameter("User", "U", "Username (optional)", GH_ParamAccess.item);
+        p.AddTextParameter("Host", "Host", "MongoDB host (e.g. localhost)", GH_ParamAccess.item, "localhost");
+        p.AddIntegerParameter("Port", "Port", "MongoDB port", GH_ParamAccess.item, 27017);
+        p.AddTextParameter("User", "User", "Username (optional) to use for authentication", GH_ParamAccess.item);
         p[p.ParamCount - 1].Optional = true;
-        p.AddTextParameter("Password", "Pw", "Password (optional)", GH_ParamAccess.item);
+        p.AddTextParameter("Password", "Pw", "Password (optional) to use for authentication", GH_ParamAccess.item);
         p[p.ParamCount - 1].Optional = true;
-        p.AddTextParameter("Database", "DB", "Database name", GH_ParamAccess.item);
+        p.AddTextParameter("Database", "DB", "Database name, must exist and will not be created if it doesnt exist", GH_ParamAccess.item);
         p.AddTextParameter("Options", "Opt", "Optional extra connection string options (e.g. authSource=admin&tls=true)", GH_ParamAccess.item, "");
         p[p.ParamCount - 1].Optional = true;
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddParameter(new MongoDbConnectionParam(), "Connection", "C", "MongoDB connection object", GH_ParamAccess.item);
+        p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "Reusable MongoDB connection object", GH_ParamAccess.item);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

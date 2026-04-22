@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
-using Grasshopper.Kernel.Types;
 using System.Windows.Forms;
 using GenericMongoPlugin.Parameters;
 using GenericMongoPlugin.Types;
 using GenericMongoPlugin.Utils;
-using Rhino.Geometry;
 
 namespace GenericMongoPlugin.Components;
 
@@ -28,7 +24,7 @@ public sealed class MongoQueryComponent : GH_Component
         UpdateMessage();
     }
 
-    public override Guid ComponentGuid => new Guid("ad7d2b82-1b80-4982-98f0-6ed33e4f3cf2");
+    public override Guid ComponentGuid => new("ad7d2b82-1b80-4982-98f0-6ed33e4f3cf2");
 
     protected override Bitmap Icon => PluginIcons.Get("component-query-mongo.png");
 
@@ -38,7 +34,7 @@ public sealed class MongoQueryComponent : GH_Component
         p.AddTextParameter("Collection", "Col", "Collection name", GH_ParamAccess.item);
         p.AddParameter(new MongoFilterParam(), "Filters", "Filt", "Filters (connect multiple wires to create a list)", GH_ParamAccess.list);
         p[p.ParamCount - 1].Optional = true;
-        p.AddIntegerParameter("Limit", "Limit", "Max documents", GH_ParamAccess.item, 100);
+        p.AddIntegerParameter("Limit", "Lim", "Max documents", GH_ParamAccess.item, 100);
         p.AddBooleanParameter("Run", "Run", "Trigger - Avoids querying before the user added all parameters.", GH_ParamAccess.item, false);
     }
 

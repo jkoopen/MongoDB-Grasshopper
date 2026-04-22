@@ -19,18 +19,18 @@ public sealed class ExpandAttributesComponent : GH_Component
     {
     }
 
-    public override Guid ComponentGuid => new Guid("b0f54eab-0cb4-4fb8-9b2d-e90d23f72ad2");
+    public override Guid ComponentGuid => new("b0f54eab-0cb4-4fb8-9b2d-e90d23f72ad2");
 
     protected override Bitmap Icon => PluginIcons.Get("component-expand-attributes.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddParameter(new MongoAttributesParam(), "Attributes", "A", "Attributes item to expand", GH_ParamAccess.item);
+        p.AddParameter(new MongoAttributesParam(), "Attributes", "Attr", "Attributes item to expand", GH_ParamAccess.item);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddParameter(new MongoAttributesParam(), "Attribute", "A", "Expanded single-attribute items", GH_ParamAccess.list);
+        p.AddParameter(new MongoAttributesParam(), "Attribute", "Attr", "Expanded single-attribute items", GH_ParamAccess.list);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)
@@ -47,7 +47,7 @@ public sealed class ExpandAttributesComponent : GH_Component
 
         foreach (var el in doc)
         {
-            var singleDoc = new BsonDocument(el.Name, (BsonValue)el.Value.DeepClone());
+            var singleDoc = new BsonDocument(el.Name, el.Value.DeepClone());
             expanded.Add(new MongoAttributesGoo(new MongoAttributes(singleDoc)));
         }
 

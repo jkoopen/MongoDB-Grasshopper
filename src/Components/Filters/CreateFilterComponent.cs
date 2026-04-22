@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
 using System.Windows.Forms;
@@ -30,19 +28,19 @@ public sealed class CreateFilterComponent : GH_Component
         UpdateMessage();
     }
 
-    public override Guid ComponentGuid => new Guid("9a11c282-2fc0-4f20-b1f1-8fe64d5b5355");
+    public override Guid ComponentGuid => new("9a11c282-2fc0-4f20-b1f1-8fe64d5b5355");
 
     protected override Bitmap Icon => PluginIcons.Get("component-create-filter.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddParameter(new MongoFilterEntryParam(), "Entries", "E", "Filter entries (connect multiple wires to create a list)", GH_ParamAccess.list);
+        p.AddParameter(new MongoFilterEntryParam(), "Entries", "Ent", "Filter entries (connect multiple wires to create a list)", GH_ParamAccess.list);
         p[p.ParamCount - 1].Optional = true;
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddParameter(new MongoFilterParam(), "Filter", "F", "MongoDB filter", GH_ParamAccess.item);
+        p.AddParameter(new MongoFilterParam(), "Filter", "Fil", "MongoDB filter", GH_ParamAccess.item);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

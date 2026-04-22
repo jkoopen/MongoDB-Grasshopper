@@ -15,7 +15,7 @@ public sealed class MongoAttributes
 
     public BsonDocument Document { get; }
 
-    public MongoAttributes Clone() => new MongoAttributes(Document.DeepClone().AsBsonDocument);
+    public MongoAttributes Clone() => new(Document.DeepClone().AsBsonDocument);
 
     public void SetText(string key, string value) => Document[key] = value;
 

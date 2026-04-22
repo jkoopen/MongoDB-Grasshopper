@@ -19,18 +19,18 @@ public class ListCollectionsComponent : GH_Component
     {
     }
 
-    public override Guid ComponentGuid => new Guid("93ad37a3-355d-468e-bf7d-254e816752bd");
+    public override Guid ComponentGuid => new("93ad37a3-355d-468e-bf7d-254e816752bd");
 
     protected override Bitmap Icon => PluginIcons.Get("component-list-collections.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "MongoDB database connection to be queried", GH_ParamAccess.item);
+        p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "MongoDB database connection.", GH_ParamAccess.item);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddTextParameter("Collections", "C", "Collection names", GH_ParamAccess.list);
+        p.AddTextParameter("Collections", "Col", "Collection names", GH_ParamAccess.list);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

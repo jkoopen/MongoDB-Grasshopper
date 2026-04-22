@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
@@ -30,7 +28,7 @@ public sealed class MongoReplaceComponent : GH_Component
         UpdateMessage();
     }
 
-    public override Guid ComponentGuid => new Guid("c9dd9b8e-1a88-4512-a875-59899ba443a8");
+    public override Guid ComponentGuid => new("c9dd9b8e-1a88-4512-a875-59899ba443a8");
 
     protected override Bitmap Icon => PluginIcons.Get("component-replace-mongo.png");
 
@@ -38,7 +36,7 @@ public sealed class MongoReplaceComponent : GH_Component
     {
         p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "MongoDB connection to use for the query", GH_ParamAccess.item);
         p.AddTextParameter("Collection", "Col", "Collection name, if nonexistent the collection is automatically created.", GH_ParamAccess.item);
-        p.AddParameter(new MongoFilterParam(), "Filters", "F", "Filters (connect multiple wires to create a list)", GH_ParamAccess.list);
+        p.AddParameter(new MongoFilterParam(), "Filters", "Filt", "Filters (connect multiple wires to create a list)", GH_ParamAccess.list);
         p[p.ParamCount - 1].Optional = true;
 
         // Default is Geometry mode.

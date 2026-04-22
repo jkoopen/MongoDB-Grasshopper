@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
@@ -22,26 +21,26 @@ public sealed class FilterEntryComponent : GH_Component
     private EntryMode _mode = EntryMode.Value;
 
     public FilterEntryComponent()
-        : base("Filter Entry", "FEntry", "Creates a single filter entry for building MongoDB filters. Modes: Value (key/value) and Range (key + lower/upper limit). For string values you can use regex: re:<pattern> or /pattern/flags (e.g. /foo.*/i).", "MongoDB", "Filters")
+        : base("Filter Entry", "FilEnt", "Creates a single filter entry for building MongoDB filters. Modes: Value (key/value) and Range (key + lower/upper limit). For string values you can use regex: re:<pattern> or /pattern/flags (e.g. /foo.*/i).", "MongoDB", "Filters")
     {
         UpdateMessage();
     }
 
-    public override Guid ComponentGuid => new Guid("3eaf0e9a-4bb8-4a31-9e06-3453912fc2da");
+    public override Guid ComponentGuid => new("3eaf0e9a-4bb8-4a31-9e06-3453912fc2da");
 
     protected override Bitmap Icon => PluginIcons.Get("component-filter-entry.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddTextParameter("Key", "K", "Attribute key", GH_ParamAccess.item);
+        p.AddTextParameter("Key", "Key", "Attribute key", GH_ParamAccess.item);
 
         // Default is Value mode. If a different mode is loaded from file, Read() will rebuild params.
-        p.AddGenericParameter("Value", "V", "Value to match. If this is a string, regex is supported via re:<pattern> or /pattern/flags (e.g. /chair_.*/i).", GH_ParamAccess.item);
+        p.AddGenericParameter("Value", "Val", "Value to match. If this is a string, regex is supported via re:<pattern> or /pattern/flags (e.g. /chair_.*/i).", GH_ParamAccess.item);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddParameter(new MongoFilterEntryParam(), "Entry", "E", "Filter entry", GH_ParamAccess.item);
+        p.AddParameter(new MongoFilterEntryParam(), "Entry", "Ent", "Filter entry", GH_ParamAccess.item);
     }
 
     private void UpdateMessage()

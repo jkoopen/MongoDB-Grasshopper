@@ -19,19 +19,19 @@ public sealed class DeconstructAttributeComponent : GH_Component
     {
     }
 
-    public override Guid ComponentGuid => new Guid("d4034960-a926-4c20-9c46-9b71e46bdbed");
+    public override Guid ComponentGuid => new("d4034960-a926-4c20-9c46-9b71e46bdbed");
 
     protected override Bitmap Icon => PluginIcons.Get("component-view-attribute.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddParameter(new MongoAttributesParam(), "Attribute", "A", "Attribute(s) (connect multiple wires to create a list)", GH_ParamAccess.list);
+        p.AddParameter(new MongoAttributesParam(), "Attribute", "Attr", "Attribute(s) (connect multiple wires to create a list)", GH_ParamAccess.list);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddTextParameter("Key", "K", "Attribute key(s)", GH_ParamAccess.list);
-        p.AddGenericParameter("Value", "V", "Attribute value(s)", GH_ParamAccess.list);
+        p.AddTextParameter("Key", "Key", "Attribute key(s)", GH_ParamAccess.list);
+        p.AddGenericParameter("Value", "Val", "Attribute value(s)", GH_ParamAccess.list);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

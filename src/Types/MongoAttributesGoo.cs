@@ -1,7 +1,5 @@
 using Grasshopper.Kernel.Types;
 using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
 
 namespace GenericMongoPlugin.Types;
 

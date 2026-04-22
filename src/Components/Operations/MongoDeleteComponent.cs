@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
 using System.Windows.Forms;
@@ -27,7 +25,7 @@ public sealed class MongoDeleteComponent : GH_Component
         UpdateMessage();
     }
 
-    public override Guid ComponentGuid => new Guid("0c5f7e9a-6514-4743-b4db-e6f04cc4053a");
+    public override Guid ComponentGuid => new("0c5f7e9a-6514-4743-b4db-e6f04cc4053a");
 
     protected override Bitmap Icon => PluginIcons.Get("component-delete-mongo.png");
 
@@ -43,8 +41,8 @@ public sealed class MongoDeleteComponent : GH_Component
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddTextParameter("Log", "L", "Logs/errors", GH_ParamAccess.item);
-        p.AddIntegerParameter("Deleted", "D", "Number of deleted documents", GH_ParamAccess.item);
+        p.AddTextParameter("Log", "Log", "Logs/errors", GH_ParamAccess.item);
+        p.AddIntegerParameter("Deleted", "DelN", "Number of deleted documents", GH_ParamAccess.item);
     }
 
     private void UpdateMessage()

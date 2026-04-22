@@ -12,19 +12,19 @@ public sealed class AttributeComponent : GH_Component
     public AttributeComponent()
         : base("Attribute", "Attr", "Creates a single attribute (key/value). Connect multiple outputs to build a list.", "MongoDB", "Attributes") { }
 
-    public override Guid ComponentGuid => new Guid("b4af0b5b-0dfe-4b63-926b-f9f7a6a10e08");
+    public override Guid ComponentGuid => new("b4af0b5b-0dfe-4b63-926b-f9f7a6a10e08");
 
     protected override Bitmap Icon => PluginIcons.Get("component-create-attribute.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddTextParameter("Key", "K", "Attribute key", GH_ParamAccess.item);
-        p.AddGenericParameter("Value", "V", "Attribute value (text/number/bool recommended)", GH_ParamAccess.item);
+        p.AddTextParameter("Key", "Key", "Attribute key", GH_ParamAccess.item);
+        p.AddGenericParameter("Value", "Val", "Attribute value (text/number/bool recommended)", GH_ParamAccess.item);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddParameter(new MongoAttributesParam(), "Attribute", "A", "Single attribute as a MongoAttributes item", GH_ParamAccess.item);
+        p.AddParameter(new MongoAttributesParam(), "Attribute", "Attr", "Single attribute as a MongoAttributes item", GH_ParamAccess.item);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

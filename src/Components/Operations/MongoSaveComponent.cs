@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
@@ -28,7 +26,7 @@ public sealed class MongoSaveComponent : GH_Component
         UpdateMessage();
     }
 
-    public override Guid ComponentGuid => new Guid("3cc3c3a4-40f3-4c0c-9a58-55cb4b459f0f");
+    public override Guid ComponentGuid => new("3cc3c3a4-40f3-4c0c-9a58-55cb4b459f0f");
 
     protected override Bitmap Icon => PluginIcons.Get("component-save-mongo.png");
 
@@ -44,7 +42,7 @@ public sealed class MongoSaveComponent : GH_Component
         p.AddParameter(new MongoAttributesParam(), "Attributes", "Atr", "Optional attributes (connect multiple wires to create a list)", GH_ParamAccess.list);
         p[p.ParamCount - 1].Optional = true;
 
-        p.AddBooleanParameter("Run", "R", "Trigger - Avoids querying before the user added all parameters.", GH_ParamAccess.item, false);
+        p.AddBooleanParameter("Run", "Run", "Trigger - Avoids querying before the user added all parameters.", GH_ParamAccess.item, false);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)

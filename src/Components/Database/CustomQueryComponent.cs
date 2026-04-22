@@ -20,22 +20,22 @@ public sealed class MongoCustomQueryComponent : GH_Component
     {
     }
 
-    public override Guid ComponentGuid => new Guid("be94cf86-54fc-4787-a14a-8f7f68056d9c");
+    public override Guid ComponentGuid => new("be94cf86-54fc-4787-a14a-8f7f68056d9c");
 
     protected override Bitmap Icon => PluginIcons.Get("component-custom-query.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "MongoDB connection", GH_ParamAccess.item);
+        p.AddParameter(new MongoDbConnectionParam(), "Connection", "Conn", "MongoDB connection to be used for the query", GH_ParamAccess.item);
         p.AddTextParameter(
             "Query",
-            "Query",
+            "Qry",
             "Mongo query JSON. Expected format:\n" +
             "{ collection: 'name', filter: { ... }, limit: 100 }\n" +
             "Fields: collection (required), filter (optional), limit (optional).",
             GH_ParamAccess.item,
             "{ collection: '', filter: {}, limit: 100 }");
-        p.AddBooleanParameter("Run", "Run", "Trigger - Avoids querying directly", GH_ParamAccess.item, false);
+        p.AddBooleanParameter("Run", "Run", "Trigger - Avoids querying before the user added all parameters.", GH_ParamAccess.item, false);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)

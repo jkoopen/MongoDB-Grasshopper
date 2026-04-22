@@ -19,21 +19,21 @@ public sealed class FindAttributeComponent : GH_Component
     {
     }
 
-    public override Guid ComponentGuid => new Guid("7ad99b64-0b4e-4c56-96dd-650898d3c19a");
+    public override Guid ComponentGuid => new("7ad99b64-0b4e-4c56-96dd-650898d3c19a");
 
     protected override Bitmap Icon => PluginIcons.Get("component-search-attribute.png");
 
     protected override void RegisterInputParams(GH_InputParamManager p)
     {
-        p.AddParameter(new MongoAttributesParam(), "Attributes", "A", "Attributes item(s) (connect multiple wires to create a list)", GH_ParamAccess.list);
+        p.AddParameter(new MongoAttributesParam(), "Attributes", "Attr", "Attributes item(s) (connect multiple wires to create a list)", GH_ParamAccess.list);
 
-        p.AddTextParameter("Key", "K", "Key to look up", GH_ParamAccess.item);
+        p.AddTextParameter("Key", "Key", "Key to look up", GH_ParamAccess.item);
     }
 
     protected override void RegisterOutputParams(GH_OutputParamManager p)
     {
-        p.AddGenericParameter("Value", "V", "Value per attributes item (null when not found)", GH_ParamAccess.list);
-        p.AddBooleanParameter("Found", "F", "True when key exists in the corresponding attributes item", GH_ParamAccess.list);
+        p.AddGenericParameter("Value", "Val", "Value per attributes item (null when not found)", GH_ParamAccess.list);
+        p.AddBooleanParameter("Found", "Fnd", "True when key exists in the corresponding attributes item", GH_ParamAccess.list);
     }
 
     protected override void SolveInstance(IGH_DataAccess DA)

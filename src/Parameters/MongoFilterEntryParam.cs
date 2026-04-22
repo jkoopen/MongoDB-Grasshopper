@@ -1,4 +1,3 @@
-using System;
 using System.Drawing;
 using Grasshopper.Kernel;
 using GenericMongoPlugin.Types;
@@ -13,11 +12,11 @@ public sealed class MongoFilterEntryParam : GH_PersistentParam<MongoFilterEntryG
     {
     }
 
-    public override Guid ComponentGuid => new Guid("b56f90c2-67c2-4c15-8df0-33b5b2ef5a16");
+    public override Guid ComponentGuid => new("b56f90c2-67c2-4c15-8df0-33b5b2ef5a16");
 
     protected override Bitmap Icon => PluginIcons.Get("param-filter-entry.png");
 
-    protected override MongoFilterEntryGoo InstantiateT() => new MongoFilterEntryGoo(new MongoFilterEntry("key", MongoDB.Bson.BsonNull.Value));
+    protected override MongoFilterEntryGoo InstantiateT() => new(new MongoFilterEntry("key", MongoDB.Bson.BsonNull.Value));
 
     protected override GH_GetterResult Prompt_Singular(ref MongoFilterEntryGoo value) => GH_GetterResult.cancel;
 
