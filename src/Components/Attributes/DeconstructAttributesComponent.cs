@@ -7,9 +7,9 @@ using GenericMongoPlugin.Utils;
 
 namespace GenericMongoPlugin.Components.Attributes;
 
-public sealed class DeconstructAttributeComponent : GH_Component
+public sealed class DeconstructAttributesComponent : GH_Component
 {
-    public DeconstructAttributeComponent()
+    public DeconstructAttributesComponent()
         : base(
             "Deconstruct Attribute",
             "DeAttr",
@@ -19,7 +19,7 @@ public sealed class DeconstructAttributeComponent : GH_Component
     {
     }
 
-    public override Guid ComponentGuid => new("d4034960-a926-4c20-9c46-9b71e46bdbed");
+    public override Guid ComponentGuid => new("b0f54eab-0cb4-4fb8-9b2d-e90d23f72ad2");
 
     protected override Bitmap Icon => PluginIcons.Get("component-view-attribute.png");
 

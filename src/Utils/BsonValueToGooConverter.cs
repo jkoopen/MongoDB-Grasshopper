@@ -21,6 +21,7 @@ public static class BsonValueToGooConverter
         }
 
         if (value.IsGuid) return new GH_Guid(value.AsGuid);
+        if (value.IsObjectId) return new GH_String(value.AsObjectId.ToString());
         if (value.IsValidDateTime)
         {
             var dt = value.ToUniversalTime();

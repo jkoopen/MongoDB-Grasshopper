@@ -28,7 +28,7 @@ public sealed class MongoAttributes
         if (string.IsNullOrWhiteSpace(key)) return false;
         // MongoDB field names cannot contain '.' and cannot start with '$'
         if (key.Contains('.')) return false;
-        if (key.StartsWith('$')) return false;
+        if (key.StartsWith('$') && key != "$id") return false;
         return true;
     }
 }

@@ -39,10 +39,43 @@ public static class MongoOperations
         {
             if (a?.Value?.Document == null) continue;
             foreach (var el in a.Value.Document)
+            {
+                // $id is a virtual attribute exposed by the plugin (maps to MongoDB's _id).
+                // It must never be written back into MongoDB because keys starting with '$' are not allowed.
+                if (el.Name == "$id") continue;
                 attrsDoc[el.Name] = el.Value;
+            }
         }
 
         return attrsDoc;
+    }
+
+    private static MongoAttributesGoo BuildAttributesWithId(BsonDocument source)
+    {
+        var doc = new BsonDocument();
+
+        // Always include $id first.
+        if (source != null && source.TryGetValue("_id", out var idVal) && !idVal.IsBsonNull)
+        {
+            // Keep it user-friendly: emit the hex string for ObjectId.
+            if (idVal.IsObjectId) doc["$id"] = idVal.AsObjectId.ToString();
+            else doc["$id"] = idVal.ToString();
+        }
+        else
+        {
+            doc["$id"] = BsonNull.Value;
+        }
+
+        if (source != null && source.TryGetValue("attrs", out var attrsVal) && attrsVal.IsBsonDocument)
+        {
+            foreach (var el in attrsVal.AsBsonDocument)
+            {
+                if (el.Name == "$id") continue;
+                doc[el.Name] = el.Value.DeepClone();
+            }
+        }
+
+        return new MongoAttributesGoo(new MongoAttributes(doc));
     }
 
     public static (string log, string id) StoreGeometry(
@@ -186,15 +219,7 @@ public static class MongoOperations
             }
             planes.Add(plane);
 
-            if (d.TryGetValue("attrs", out var attrsVal) && attrsVal.IsBsonDocument)
-            {
-                var doc = attrsVal.AsBsonDocument.DeepClone().AsBsonDocument;
-                attributes.Add(new MongoAttributesGoo(new MongoAttributes(doc)));
-            }
-            else
-            {
-                attributes.Add(new MongoAttributesGoo(new MongoAttributes()));
-            }
+            attributes.Add(BuildAttributesWithId(d));
         }
 
         var suffix = skipped > 0 ? $" (skipped {skipped})" : string.Empty;
@@ -241,15 +266,7 @@ public static class MongoOperations
                 continue;
             }
 
-            if (d.TryGetValue("attrs", out var attrsVal) && attrsVal.IsBsonDocument)
-            {
-                var doc = attrsVal.AsBsonDocument.DeepClone().AsBsonDocument;
-                attributes.Add(new MongoAttributesGoo(new MongoAttributes(doc)));
-            }
-            else
-            {
-                attributes.Add(new MongoAttributesGoo(new MongoAttributes()));
-            }
+            attributes.Add(BuildAttributesWithId(d));
         }
 
         var suffix = skipped > 0 ? $" (skipped {skipped})" : string.Empty;
@@ -307,15 +324,7 @@ public static class MongoOperations
                     continue;
                 }
 
-                if (d.TryGetValue("attrs", out var attrsVal) && attrsVal.IsBsonDocument)
-                {
-                    var doc = attrsVal.AsBsonDocument.DeepClone().AsBsonDocument;
-                    attributes.Add(new MongoAttributesGoo(new MongoAttributes(doc)));
-                }
-                else
-                {
-                    attributes.Add(new MongoAttributesGoo(new MongoAttributes()));
-                }
+                attributes.Add(BuildAttributesWithId(d));
 
                 continue;
             }
@@ -341,15 +350,7 @@ public static class MongoOperations
                     continue;
                 }
 
-                if (d.TryGetValue("attrs", out var attrsVal) && attrsVal.IsBsonDocument)
-                {
-                    var doc = attrsVal.AsBsonDocument.DeepClone().AsBsonDocument;
-                    attributes.Add(new MongoAttributesGoo(new MongoAttributes(doc)));
-                }
-                else
-                {
-                    attributes.Add(new MongoAttributesGoo(new MongoAttributes()));
-                }
+                attributes.Add(BuildAttributesWithId(d));
 
                 continue;
             }

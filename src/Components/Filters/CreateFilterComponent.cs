@@ -5,6 +5,7 @@ using GenericMongoPlugin.Parameters;
 using GenericMongoPlugin.Types;
 using GenericMongoPlugin.Utils;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 
 namespace GenericMongoPlugin.Components.Filters;
 
@@ -175,6 +176,13 @@ public sealed class CreateFilterComponent : GH_Component
 
             var val = entry!.Value;
 
+            // Special virtual key: $id maps to MongoDB's document _id.
+            if (key == "$id")
+            {
+                equalityDocs.Add(new BsonDocument("_id", CoerceObjectIdValue(val)));
+                continue;
+            }
+
             // Regex support for string values:
             // - re:<pattern>
             // - /pattern/flags (flags like i,m,s,x)
@@ -219,6 +227,65 @@ public sealed class CreateFilterComponent : GH_Component
         }
 
         return include;
+    }
+
+    private static BsonValue CoerceObjectIdValue(BsonValue value)
+    {
+        if (value == null || value.IsBsonNull) return BsonNull.Value;
+
+        // Handle range docs too ({$gte:..., $lte:...}).
+        if (value.IsBsonDocument)
+        {
+            var doc = value.AsBsonDocument;
+            if (doc.Contains("$gte") || doc.Contains("$lte"))
+            {
+                var outDoc = new BsonDocument();
+                if (doc.TryGetValue("$gte", out var gte)) outDoc["$gte"] = CoerceObjectIdValue(gte);
+                if (doc.TryGetValue("$lte", out var lte)) outDoc["$lte"] = CoerceObjectIdValue(lte);
+                return outDoc;
+            }
+        }
+
+        if (!value.IsString) return value;
+
+        var s = (value.AsString ?? string.Empty).Trim();
+        if (s.Length == 0) return value;
+
+        // Accept common string forms:
+        // - "507f1f77bcf86cd799439011"
+        // - "ObjectId(\"507f...\")"
+        // - "ObjectId('507f...')"
+        if (s.StartsWith("ObjectId(", StringComparison.OrdinalIgnoreCase) && s.EndsWith(")"))
+        {
+            s = s.Substring("ObjectId(".Length, s.Length - "ObjectId(".Length - 1).Trim();
+            if ((s.StartsWith("\"") && s.EndsWith("\"")) || (s.StartsWith("'") && s.EndsWith("'")))
+                s = s[1..^1];
+            s = s.Trim();
+        }
+
+        if (ObjectId.TryParse(s, out var oid))
+            return new BsonObjectId(oid);
+
+        // Also accept extended JSON like {"$oid":"..."} if user pasted it as a string.
+        if (s.StartsWith("{") && s.Contains("$oid", StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                var parsed = BsonSerializer.Deserialize<BsonValue>(s);
+                if (parsed != null && parsed.IsBsonDocument)
+                {
+                    var pd = parsed.AsBsonDocument;
+                    if (pd.TryGetValue("$oid", out var ov) && ov.IsString && ObjectId.TryParse(ov.AsString, out var oid2))
+                        return new BsonObjectId(oid2);
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+        }
+
+        return value;
     }
 
     private static bool TryParseRegexString(string? text, out BsonRegularExpression regex)

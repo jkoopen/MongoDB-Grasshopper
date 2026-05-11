@@ -210,7 +210,7 @@ public sealed class FilterEntryComponent : GH_Component
         key = (key ?? string.Empty).Trim();
         if (!MongoAttributes.IsValidKey(key))
         {
-            AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid key. Mongo keys cannot contain '.' and cannot start with '$'.");
+            AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid key. Mongo keys cannot contain '.' and cannot start with '$' (except '$id' for ObjectId filtering). ");
             return;
         }
 

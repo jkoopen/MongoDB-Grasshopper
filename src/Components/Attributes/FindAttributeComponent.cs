@@ -51,7 +51,7 @@ public sealed class FindAttributeComponent : GH_Component
 
         if (!MongoAttributes.IsValidKey(key))
         {
-            AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid key. Mongo keys cannot contain '.' and cannot start with '$'.");
+            AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid key. Mongo keys cannot contain '.' and cannot start with '$' (except '$id').");
 
             for (var i = 0; i < attributesList.Count; i++)
             {
