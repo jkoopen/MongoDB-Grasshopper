@@ -19,6 +19,7 @@ _ReSharper*/
 *.suo
 *.userosscache
 *.sln.docstates
+*.csproj.lscache
 
 # VS Code
 .vscode/

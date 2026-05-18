@@ -71,6 +71,19 @@ To package the plugin for distribution, use the included pack script:
 
 This project can build on Windows when Rhino 8 is installed. The `.csproj` auto-references the common default install paths.
 
+For development/testing, use the Windows batch helpers:
+
+```bat
+dotnet build -v minimal
+link.bat
+```
+
+To package a distribution zip:
+
+```bat
+pack.bat Release
+```
+
 If your Rhino installation is in a custom location, override paths:
 
 ```powershell
