@@ -52,6 +52,9 @@ if [[ -d "$out_dir/runtimes" ]]; then
   cp -R "$out_dir/runtimes/" "$root_dir/dist/staging/"
 fi
 
+# Third-party notice for the MongoDB driver dependency.
+cp -f "$root_dir/NOTICE" "$root_dir/dist/staging/NOTICE"
+
 # Optional symbols
 if [[ -f "$out_dir/$base_name.pdb" ]]; then
   cp -f "$out_dir/$base_name.pdb" "$root_dir/dist/staging/" || true

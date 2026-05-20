@@ -12,7 +12,7 @@ The plugin was developed and used for a research project at the Amsterdam Univer
 
 ## Features
 
-- **CRUD Operations** such as Save, Query, Replace, Delete for both Geometry and Generic data
+- **CRUD Operations** such as Save, Query, Replace, Delete for both Geometry and Generic typed data
 - **Attributes system** to attach typed metadata under stored documents, with support for querying and filtering based on these attributes
 - **Filter builder** to build safe query filters
 	- Supports **regex** for string values: `re:<pattern>` or `/pattern/flags`
@@ -99,3 +99,4 @@ dotnet build /p:RhinoWinSystemDir="D:\Rhino\System" /p:GrasshopperWinDir="D:\Rhi
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The release zip also includes `NOTICE`, which covers the MongoDB C# Driver package (`MongoDB.Driver` 2.28.0) used by this plugin.
