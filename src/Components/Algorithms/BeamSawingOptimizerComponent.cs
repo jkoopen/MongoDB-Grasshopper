@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
+using System.Text.RegularExpressions;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino;
 using Rhino.Geometry;
+using GenericMongoPlugin.Components.Algorithms;
 using GenericMongoPlugin.Utils;
 
 namespace GenericMongoPlugin.Components;
@@ -15,9 +14,9 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
 {
     public BeamSawingOptimizerComponent()
         : base(
-            "Beam Sawing Optimizer",
-            "SawOpt",
-            "Matches desired beam-like geometry to available stock beams and outputs end-sawing planes to minimize waste.",
+            "Sawing Algorithm",
+            "SawAlgo",
+            "Matches desired beam geometry to available stock geometry and simulates sawing to optimize material efficiency. ",
             "MongoDB",
             "Algorithms")
     {
@@ -55,16 +54,16 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             GH_ParamAccess.list);
 
         p.AddNumberParameter(
-            "Horizontal Angle Max",
-            "HMax",
-            "Max allowed horizontal cut angle in degrees (miter). 0 means perpendicular cuts only.",
+            "Saw Yaw Max",
+            "YMax",
+            "Max allowed horizontal cut angle in degrees (yaw). 0 means perpendicular cuts only.",
             GH_ParamAccess.item,
             0.0);
 
         p.AddNumberParameter(
-            "Vertical Angle Max",
-            "VMax",
-            "Max allowed vertical cut angle in degrees (bevel). 0 means perpendicular cuts only.",
+            "Saw Roll Max",
+            "RMax",
+            "Max allowed vertical cut angle in degrees (roll). 0 means perpendicular cuts only.",
             GH_ParamAccess.item,
             0.0);
     }
@@ -105,6 +104,12 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             "Surplus UIDs",
             "Sur",
             "UIDs of stock beams that were not used to fulfill the design.",
+            GH_ParamAccess.list);
+
+        p.AddBrepParameter(
+            "Surplus Geometry",
+            "SurG",
+            "Geometry of stock beams that were not used to fulfill the design (including reusable offcuts).",
             GH_ParamAccess.list);
 
         p.AddBrepParameter(
@@ -151,13 +156,99 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
         var unmatched = new List<Brep>();
         var sawingTree = new GH_Structure<GH_Plane>();
 
+        // Piece UID bookkeeping (for suffixing + reuse).
+        // - Base UID: the original incoming stock UID.
+        // - Piece UID: Base UID with a "-n" suffix.
+        var uidPieceCounters = new Dictionary<string, int>(StringComparer.Ordinal);
+        var uidBaseMap = new Dictionary<string, string>(StringComparer.Ordinal);
+        var allocatedPieceUids = new HashSet<string>(StringComparer.Ordinal);
+
+        static bool TryParseUidStrict(string uid, out string baseUid, out int? pieceIndex, out string? error)
+        {
+            baseUid = uid;
+            pieceIndex = null;
+            error = null;
+
+            if (string.IsNullOrWhiteSpace(uid))
+            {
+                error = "UID is empty.";
+                return false;
+            }
+
+            // Only treat as a suffixed UID if it ENDS with -<digits>.
+            // Otherwise (e.g. "my-plank"), treat the entire string as the base UID and suffix internally.
+            var m = Regex.Match(uid, @"^(?<base>.+)-(?<n>\d+)$");
+            if (!m.Success)
+                return true;
+
+            baseUid = m.Groups["base"].Value;
+
+            if (!int.TryParse(m.Groups["n"].Value, out int n) || n <= 0)
+            {
+                error = $"UID '{uid}' is invalid: numeric suffix must be a positive integer.";
+                return false;
+            }
+
+            pieceIndex = n;
+            return true;
+        }
+
+        string GetBaseUid(string uid)
+            => uidBaseMap.TryGetValue(uid, out var b) ? b : uid;
+
+        string NewPieceUid(string baseUid)
+        {
+            if (!uidPieceCounters.TryGetValue(baseUid, out int k))
+                k = 0;
+            k++;
+            uidPieceCounters[baseUid] = k;
+
+            string pieceUid = $"{baseUid}-{k}";
+            uidBaseMap[pieceUid] = baseUid;
+            allocatedPieceUids.Add(pieceUid);
+            return pieceUid;
+        }
+
+        string EnsurePieceUid(string uid)
+        {
+            if (allocatedPieceUids.Contains(uid))
+                return uid;
+
+            string baseUid = GetBaseUid(uid);
+            return NewPieceUid(baseUid);
+        }
+
         // Convert inputs to Breps and keep Stock Geometry paired to Stock UIDs.
         var inventoryGeo = new List<Brep>();
         var inventoryUids = new List<string>();
+        var inventoryMeshes = new List<Mesh?>();
 
         for (int i = 0; i < stockGeoGoo.Count; i++)
         {
-            var brep = ToBrep(stockGeoGoo[i]);
+            string uidIn = stockUids[i];
+            if (!TryParseUidStrict(uidIn, out string baseUidParsed, out int? parsedIndex, out string? uidErr))
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error,
+                    $"Stock UID at index {i} is invalid: {uidErr}");
+                continue;
+            }
+
+            var brep0 = ToBrep(stockGeoGoo[i]);
+            var brep = brep0;
+            if (brep0 != null)
+            {
+                try
+                {
+                    var capped = brep0.CapPlanarHoles(tol);
+                    if (capped != null && capped.IsValid)
+                        brep = capped;
+                }
+                catch
+                {
+                    brep = brep0;
+                }
+            }
+
             if (brep == null || !brep.IsValid)
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Warning,
@@ -166,7 +257,22 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             }
 
             inventoryGeo.Add(brep);
-            inventoryUids.Add(stockUids[i]);
+            inventoryUids.Add(uidIn);
+            inventoryMeshes.Add(CreateStockMesh(brep, tol));
+
+            // Seed base UID mapping and counter state.
+            uidBaseMap[uidIn] = baseUidParsed;
+            if (!uidBaseMap.ContainsKey(baseUidParsed))
+                uidBaseMap[baseUidParsed] = baseUidParsed;
+
+            if (parsedIndex.HasValue)
+            {
+                // Treat incoming uid as already-suffixed piece.
+                allocatedPieceUids.Add(uidIn);
+                if (!uidPieceCounters.TryGetValue(baseUidParsed, out int k))
+                    k = 0;
+                uidPieceCounters[baseUidParsed] = Math.Max(k, parsedIndex.Value);
+            }
         }
 
         var desiredGeo = new List<Brep>();
@@ -190,7 +296,8 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             DA.SetDataList(3, new List<string>());
             DA.SetDataTree(4, new GH_Structure<GH_Plane>());
             DA.SetDataList(5, inventoryUids);
-            DA.SetDataList(6, desiredGeo);
+            DA.SetDataList(6, inventoryGeo);
+            DA.SetDataList(7, desiredGeo);
             return;
         }
 
@@ -213,13 +320,16 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             Plane tPlane = GetOrthoBeamPlane(target);
             Extents tLocal = GetLocalExtents(target, tPlane, Transform.Identity);
 
+            var desiredSamples = FitUtils.GetSamplePoints(target, maxPoints: 250);
+            bool useSampleFit = desiredSamples.Count > 0;
+
             int bestIdx = -1;
             Plane bestBeamPlane = Plane.Unset;
             Transform bestBeamToTarget = Transform.Identity;
             Transform bestTargetToBeam = Transform.Identity;
             Extents bestBeamLocal = default;
             Extents bestTargetInBeamLocal = default;
-            double bestOverlap = double.NegativeInfinity;
+            double bestFit = double.NegativeInfinity;
             double bestEfficiency = double.NegativeInfinity;
             int bestCutsNeeded = int.MaxValue;
 
@@ -261,12 +371,25 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
                         var tInBeamLocal = tInBeamLocalBase;
                         tInBeamLocal.X = new Interval(tInBeamLocal.X.T0 + delta, tInBeamLocal.X.T1 + delta);
 
-                        double overlap =
-                            OverlapFraction(tInBeamLocal.X, bLocal.X) *
-                            OverlapFraction(tInBeamLocal.Y, bLocal.Y) *
-                            OverlapFraction(tInBeamLocal.Z, bLocal.Z);
+                        // Compose translation after base alignment.
+                        var shift = Transform.Translation(bPlane.XAxis * delta);
+                        var desiredToStock = shift * targetToBeamBase;
 
-                        if (overlap + 1e-12 < accuracy) return;
+                        double fit;
+                        if (useSampleFit)
+                        {
+                            fit = FitUtils.ComputeFitRatioSampled(inventoryMeshes[i], beam, desiredSamples, desiredToStock, tol);
+                        }
+                        else
+                        {
+                            // Fallback: extents-overlap is cheap and works even when sampling fails.
+                            fit =
+                                OverlapFraction(tInBeamLocal.X, bLocal.X) *
+                                OverlapFraction(tInBeamLocal.Y, bLocal.Y) *
+                                OverlapFraction(tInBeamLocal.Z, bLocal.Z);
+                        }
+
+                        if (fit + 1e-12 < accuracy) return;
 
                         double beamVol = SafeOrApproxVolume(beam, bLocal);
                         double targetVol = SafeOrApproxVolume(target, tLocal);
@@ -275,20 +398,18 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
                         double candidateEfficiency = Clamp(targetVol / beamVol, 0.0, 1.0);
                         int cutsNeeded = CutsNeeded(tInBeamLocal.X, bLocal.X, tol);
 
-                        // Rank: higher overlap, then fewer cuts, then higher efficiency.
-                        if (overlap > bestOverlap + 1e-12 ||
-                            (Math.Abs(overlap - bestOverlap) <= 1e-12 && cutsNeeded < bestCutsNeeded) ||
-                            (Math.Abs(overlap - bestOverlap) <= 1e-12 && cutsNeeded == bestCutsNeeded && candidateEfficiency > bestEfficiency))
+                        // Rank: higher fit, then fewer cuts, then higher efficiency.
+                        if (fit > bestFit + 1e-12 ||
+                            (Math.Abs(fit - bestFit) <= 1e-12 && cutsNeeded < bestCutsNeeded) ||
+                            (Math.Abs(fit - bestFit) <= 1e-12 && cutsNeeded == bestCutsNeeded && candidateEfficiency > bestEfficiency))
                         {
-                            bestOverlap = overlap;
+                            bestFit = fit;
                             bestCutsNeeded = cutsNeeded;
                             bestEfficiency = candidateEfficiency;
                             bestIdx = i;
                             bestBeamPlane = bPlane;
 
-                            // Compose translation after base alignment.
-                            var shift = Transform.Translation(bPlane.XAxis * delta);
-                            bestTargetToBeam = shift * targetToBeamBase;
+                            bestTargetToBeam = desiredToStock;
 
                             Transform inv;
                             bestBeamToTarget = bestTargetToBeam.TryGetInverse(out inv) ? inv : Transform.Identity;
@@ -308,10 +429,13 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             // Execute sawing: end cuts only, in the chosen beam frame.
             var chosenBeam = inventoryGeo[bestIdx];
             var chosenUid = inventoryUids[bestIdx];
+            var baseUid = GetBaseUid(chosenUid);
+            var pieceUid = EnsurePieceUid(chosenUid);
             Plane beamPlane = bestBeamPlane.IsValid ? bestBeamPlane : GetOrthoBeamPlane(chosenBeam);
 
             var cutResult = chosenBeam.DuplicateBrep();
             var confirmedCuts = new List<Plane>();
+            var offcuts = new List<Brep>();
 
             Interval bx = bestBeamLocal.X;
             Interval tx = bestTargetInBeamLocal.X;
@@ -360,10 +484,15 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
 
                 if (split == null || split.Length == 0) continue;
 
-                // Keep the piece closest to the desired center along the beam X axis.
-                cutResult = split
+                // Keep the piece closest to the desired center; all others become offcuts we can reuse.
+                var ordered = split
+                    .Where(b => b != null && b.IsValid)
                     .OrderBy(piece => piece.GetBoundingBox(true).Center.DistanceTo(desiredCenterW))
-                    .FirstOrDefault();
+                    .ToArray();
+
+                cutResult = ordered.FirstOrDefault();
+                for (int si = 1; si < ordered.Length; si++)
+                    offcuts.Add(ordered[si]);
 
                 if (cutResult == null) break;
                 confirmedCuts.Add(p);
@@ -389,7 +518,7 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             outBrep.Transform(bestBeamToTarget);
 
             resultGeoO.Add(outBrep);
-            resultUids.Add(chosenUid);
+            resultUids.Add(pieceUid);
 
             var path = new GH_Path(resultIdx);
             // Sawing planes stay in world/stock orientation to align with Result Geometry.
@@ -403,6 +532,38 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
             // Remove used stock.
             inventoryGeo.RemoveAt(bestIdx);
             inventoryUids.RemoveAt(bestIdx);
+            inventoryMeshes.RemoveAt(bestIdx);
+
+            // Reuse offcuts as new stock inventory.
+            // The offcuts keep the same base UID, but get new piece suffix indices.
+            foreach (var off in offcuts)
+            {
+                if (off == null || !off.IsValid) continue;
+
+                Brep offBrep = off;
+                try
+                {
+                    var capped = offBrep.CapPlanarHoles(tol);
+                    if (capped != null && capped.IsValid)
+                        offBrep = capped;
+                }
+                catch
+                {
+                    offBrep = off;
+                }
+
+                if (offBrep == null || !offBrep.IsValid) continue;
+
+                // Ignore tiny fragments.
+                var offLocal = GetLocalExtents(offBrep, beamPlane, Transform.Identity);
+                var offVol = SafeOrApproxVolume(offBrep, offLocal);
+                if (offVol <= tol * tol * tol) continue;
+
+                string offUid = NewPieceUid(baseUid);
+                inventoryGeo.Add(offBrep);
+                inventoryUids.Add(offUid);
+                inventoryMeshes.Add(CreateStockMesh(offBrep, tol));
+            }
 
             resultIdx++;
         }
@@ -415,7 +576,49 @@ public sealed class BeamSawingOptimizerComponent : GH_Component
         DA.SetDataList(3, resultUids);
         DA.SetDataTree(4, sawingTree);
         DA.SetDataList(5, inventoryUids);
-        DA.SetDataList(6, unmatched);
+        DA.SetDataList(6, inventoryGeo);
+        DA.SetDataList(7, unmatched);
+    }
+
+    private static Mesh? CreateStockMesh(Brep stock, double tol)
+    {
+        if (stock == null || !stock.IsValid)
+            return null;
+
+        try
+        {
+            // Ensure as-solid-as-possible input for meshing.
+            Brep s = stock;
+            try
+            {
+                var capped = stock.CapPlanarHoles(tol);
+                if (capped != null && capped.IsValid)
+                    s = capped;
+            }
+            catch
+            {
+                s = stock;
+            }
+
+            var parts = Mesh.CreateFromBrep(s, MeshingParameters.FastRenderMesh);
+            if (parts == null || parts.Length == 0)
+                return null;
+
+            var m = new Mesh();
+            foreach (var mm in parts)
+                if (mm != null) m.Append(mm);
+
+            if (m.Vertices.Count == 0)
+                return null;
+
+            m.Normals.ComputeNormals();
+            m.Compact();
+            return m;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private struct Extents
