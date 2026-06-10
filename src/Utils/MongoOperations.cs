@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Grasshopper.Kernel.Types;
 using GenericMongoPlugin.Types;
 using MongoDB.Bson;
@@ -360,5 +361,124 @@ public static class MongoOperations
 
         var suffix = skipped > 0 ? $" (skipped {skipped})" : string.Empty;
         return ($"Success: Returned {data.Count} item(s).{suffix}", data, attributes);
+    }
+
+    public static (string log, List<IGH_Goo> data, List<MongoAttributesGoo> attributes) QueryAnyAggregate(
+        MongoDbConnection conn,
+        string collectionName,
+        BsonArray pipeline)
+    {
+        var db = conn.CreateDatabase();
+        var col = db.GetCollection<BsonDocument>(collectionName);
+
+        pipeline ??= new BsonArray();
+        var stages = pipeline
+            .Select(stage =>
+            {
+                if (!stage.IsBsonDocument)
+                    throw new ArgumentException("Aggregate pipeline stages must be objects.", nameof(pipeline));
+
+                return (PipelineStageDefinition<BsonDocument, BsonDocument>)new BsonDocumentPipelineStageDefinition<BsonDocument, BsonDocument>(stage.AsBsonDocument);
+            })
+            .ToList();
+
+        var docs = col.Aggregate(PipelineDefinition<BsonDocument, BsonDocument>.Create(stages)).ToList();
+
+        var data = new List<IGH_Goo>(docs.Count);
+        var attributes = new List<MongoAttributesGoo>(docs.Count);
+
+        var skipped = 0;
+        foreach (var d in docs)
+        {
+            // Keep aggregate decoding behavior aligned with generic query decoding.
+            if (d.TryGetValue("geom", out var geomVal) && !geomVal.IsBsonNull)
+            {
+                if (!d.TryGetValue("geomType", out var geomTypeVal) || !geomTypeVal.IsString)
+                {
+                    skipped++;
+                    continue;
+                }
+
+                try
+                {
+                    var bytes = geomVal.AsBsonBinaryData.Bytes;
+                    var geo = GhArchiveGeometrySerializer.Deserialize(bytes, geomTypeVal.AsString);
+                    data.Add(geo);
+                }
+                catch
+                {
+                    skipped++;
+                    continue;
+                }
+
+                attributes.Add(BuildAttributesWithId(d));
+                continue;
+            }
+
+            if (d.TryGetValue("data", out var dataVal) && !dataVal.IsBsonNull)
+            {
+                if (!d.TryGetValue("dataType", out var dataTypeVal) || !dataTypeVal.IsString)
+                {
+                    skipped++;
+                    continue;
+                }
+
+                try
+                {
+                    var bytes = dataVal.AsBsonBinaryData.Bytes;
+                    var goo = GhArchiveGooSerializer.Deserialize(bytes, dataTypeVal.AsString);
+                    data.Add(goo);
+                }
+                catch
+                {
+                    skipped++;
+                    continue;
+                }
+
+                attributes.Add(BuildAttributesWithId(d));
+                continue;
+            }
+
+            skipped++;
+        }
+
+        var suffix = skipped > 0 ? $" (skipped {skipped})" : string.Empty;
+        return ($"Success: Returned {data.Count} item(s) from aggregate pipeline.{suffix}", data, attributes);
+    }
+
+    public static (string log, List<IGH_Goo> data, List<MongoAttributesGoo> attributes) CountDocuments(
+        MongoDbConnection conn,
+        string collectionName,
+        BsonDocument filterDoc)
+    {
+        var db = conn.CreateDatabase();
+        var col = db.GetCollection<BsonDocument>(collectionName);
+
+        filterDoc ??= new BsonDocument();
+        var filter = new BsonDocumentFilterDefinition<BsonDocument>(filterDoc);
+        var count = col.CountDocuments(filter);
+
+        var data = new List<IGH_Goo> { new GH_Number(count) };
+        return ($"Success: Counted {count} document(s).", data, new List<MongoAttributesGoo>());
+    }
+
+    public static (string log, List<IGH_Goo> data, List<MongoAttributesGoo> attributes) QueryDistinct(
+        MongoDbConnection conn,
+        string collectionName,
+        string fieldName,
+        BsonDocument filterDoc)
+    {
+        var db = conn.CreateDatabase();
+        var col = db.GetCollection<BsonDocument>(collectionName);
+
+        filterDoc ??= new BsonDocument();
+        var filter = new BsonDocumentFilterDefinition<BsonDocument>(filterDoc);
+        var values = col.Distinct<BsonValue>(fieldName, filter).ToList();
+
+        var data = values
+            .Select(BsonValueToGooConverter.Convert)
+            .ToList();
+
+        return ($"Success: Returned {data.Count} distinct value(s) for '{fieldName}'.", data, new List<MongoAttributesGoo>());
     }
 }
