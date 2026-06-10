@@ -1,0 +1,309 @@
+Beam 0: matched to stock '54' -> '54-1' using inventory index 53; tried 0 failures before accept; result solid=True, surplus offcuts=1.
+Beam 1: candidate 177 collides with placed geometry; trying next candidate.
+Beam 1: candidate 171 collides with placed geometry; trying next candidate.
+Beam 1: exhausted retries (2/2) without a valid placement.
+Beam 2: matched to stock '56' -> '56-1' using inventory index 54; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 3: candidate 177 collides with placed geometry; trying next candidate.
+Beam 3: candidate 171 collides with placed geometry; trying next candidate.
+Beam 3: exhausted retries (2/2) without a valid placement.
+Beam 4: matched to stock '179' -> '179-1' using inventory index 176; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 5: candidate 177 collides with placed geometry; trying next candidate.
+Beam 5: candidate 171 collides with placed geometry; trying next candidate.
+Beam 5: exhausted retries (2/2) without a valid placement.
+Beam 6: matched to stock '175' -> '175-1' using inventory index 172; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 7: candidate 177 collides with placed geometry; trying next candidate.
+Beam 7: candidate 171 collides with placed geometry; trying next candidate.
+Beam 7: exhausted retries (2/2) without a valid placement.
+Beam 8: matched to stock '177' -> '177-1' using inventory index 173; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 9: candidate 171 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 9: candidate 172 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 9: exhausted retries (2/2) without a valid placement.
+Beam 10: matched to stock '171' -> '171-1' using inventory index 168; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 11: candidate 172 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 11: candidate 173 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 11: exhausted retries (2/2) without a valid placement.
+Beam 12: matched to stock '172' -> '172-1' using inventory index 168; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 13: candidate 173 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 13: candidate 178 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 13: exhausted retries (2/2) without a valid placement.
+Beam 14: matched to stock '173' -> '173-1' using inventory index 168; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 15: candidate 178 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 15: candidate 108 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 15: exhausted retries (2/2) without a valid placement.
+Beam 16: matched to stock '178' -> '178-1' using inventory index 170; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 17: candidate 108 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 17: candidate 79 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 17: exhausted retries (2/2) without a valid placement.
+Beam 18: matched to stock '108' -> '108-1' using inventory index 105; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 19: candidate 79 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 19: candidate 174 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 19: exhausted retries (2/2) without a valid placement.
+Beam 20: matched to stock '79' -> '79-1' using inventory index 76; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 21: candidate 174 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 21: candidate 133 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 21: exhausted retries (2/2) without a valid placement.
+Beam 22: matched to stock '174' -> '174-1' using inventory index 166; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 23: candidate 133 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 23: candidate 176 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 23: exhausted retries (2/2) without a valid placement.
+Beam 24: matched to stock '133' -> '133-1' using inventory index 128; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 25: candidate 176 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 25: candidate 154 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 25: exhausted retries (2/2) without a valid placement.
+Beam 26: matched to stock '176' -> '176-1' using inventory index 165; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 27: candidate 154 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 27: candidate 113 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 27: exhausted retries (2/2) without a valid placement.
+Beam 28: matched to stock '154' -> '154-1' using inventory index 148; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 29: candidate 113 collides with placed geometry; trying next candidate.
+Beam 29: candidate 57 collides with placed geometry; trying next candidate.
+Beam 29: exhausted retries (2/2) without a valid placement.
+Beam 30: matched to stock '113' -> '113-1' using inventory index 108; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 31: candidate 57 collides with placed geometry; trying next candidate.
+Beam 31: candidate 114 collides with placed geometry; trying next candidate.
+Beam 31: exhausted retries (2/2) without a valid placement.
+Beam 32: matched to stock '57' -> '57-1' using inventory index 54; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 33: candidate 114 collides with placed geometry; trying next candidate.
+Beam 33: candidate 51 collides with placed geometry; trying next candidate.
+Beam 33: exhausted retries (2/2) without a valid placement.
+Beam 34: matched to stock '114' -> '114-1' using inventory index 107; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 35: matched to stock '51' -> '51-1' using inventory index 50; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 36: matched to stock '52' -> '52-1' using inventory index 50; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 37: matched to stock '55' -> '55-1' using inventory index 51; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 38: matched to stock '59' -> '59-1' using inventory index 52; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 39: candidate 77 collides with placed geometry; trying next candidate.
+Beam 39: candidate 96 collides with placed geometry; trying next candidate.
+Beam 39: exhausted retries (2/2) without a valid placement.
+Beam 40: candidate 77 collides with placed geometry; trying next candidate.
+Beam 40: candidate 96 collides with placed geometry; trying next candidate.
+Beam 40: exhausted retries (2/2) without a valid placement.
+Beam 41: matched to stock '77' -> '77-1' using inventory index 69; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 42: candidate 96 collides with placed geometry; trying next candidate.
+Beam 42: candidate 3 collides with placed geometry; trying next candidate.
+Beam 42: exhausted retries (2/2) without a valid placement.
+Beam 43: matched to stock '96' -> '96-1' using inventory index 86; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 44: candidate 3 collides with placed geometry; trying next candidate.
+Beam 44: candidate 5 collides with placed geometry; trying next candidate.
+Beam 44: exhausted retries (2/2) without a valid placement.
+Beam 45: matched to stock '3' -> '3-1' using inventory index 2; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 46: candidate 5 collides with placed geometry; trying next candidate.
+Beam 46: candidate 7 collides with placed geometry; trying next candidate.
+Beam 46: exhausted retries (2/2) without a valid placement.
+Beam 47: matched to stock '5' -> '5-1' using inventory index 3; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 48: candidate 7 collides with placed geometry; trying next candidate.
+Beam 48: candidate 10 collides with placed geometry; trying next candidate.
+Beam 48: exhausted retries (2/2) without a valid placement.
+Beam 49: matched to stock '7' -> '7-1' using inventory index 4; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 50: candidate 10 collides with placed geometry; trying next candidate.
+Beam 50: candidate 13 collides with placed geometry; trying next candidate.
+Beam 50: exhausted retries (2/2) without a valid placement.
+Beam 51: matched to stock '10' -> '10-1' using inventory index 6; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 52: candidate 13 collides with placed geometry; trying next candidate.
+Beam 52: candidate 18 collides with placed geometry; trying next candidate.
+Beam 52: exhausted retries (2/2) without a valid placement.
+Beam 53: matched to stock '13' -> '13-1' using inventory index 8; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 54: candidate 18 collides with placed geometry; trying next candidate.
+Beam 54: candidate 19 collides with placed geometry; trying next candidate.
+Beam 54: exhausted retries (2/2) without a valid placement.
+Beam 55: matched to stock '18' -> '18-1' using inventory index 12; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 56: candidate 19 collides with placed geometry; trying next candidate.
+Beam 56: candidate 24 collides with placed geometry; trying next candidate.
+Beam 56: exhausted retries (2/2) without a valid placement.
+Beam 57: matched to stock '19' -> '19-1' using inventory index 12; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 58: candidate 24 collides with placed geometry; trying next candidate.
+Beam 58: candidate 25 collides with placed geometry; trying next candidate.
+Beam 58: exhausted retries (2/2) without a valid placement.
+Beam 59: matched to stock '24' -> '24-1' using inventory index 16; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 60: candidate 25 collides with placed geometry; trying next candidate.
+Beam 60: candidate 26 collides with placed geometry; trying next candidate.
+Beam 60: exhausted retries (2/2) without a valid placement.
+Beam 61: matched to stock '25' -> '25-1' using inventory index 16; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 62: candidate 26 collides with placed geometry; trying next candidate.
+Beam 62: candidate 27 collides with placed geometry; trying next candidate.
+Beam 62: exhausted retries (2/2) without a valid placement.
+Beam 63: matched to stock '26' -> '26-1' using inventory index 16; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 64: candidate 27 collides with placed geometry; trying next candidate.
+Beam 64: candidate 28 collides with placed geometry; trying next candidate.
+Beam 64: exhausted retries (2/2) without a valid placement.
+Beam 65: matched to stock '27' -> '27-1' using inventory index 16; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 66: matched to stock '28' -> '28-1' using inventory index 16; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 67: matched to stock '31' -> '31-1' using inventory index 18; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 68: matched to stock '32' -> '32-1' using inventory index 18; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 69: matched to stock '34' -> '34-1' using inventory index 19; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 70: matched to stock '42' -> '42-1' using inventory index 26; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 71: matched to stock '45' -> '45-1' using inventory index 28; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 72: matched to stock '46' -> '46-1' using inventory index 28; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 73: matched to stock '50' -> '50-1' using inventory index 31; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 74: candidate 53 collides with placed geometry; trying next candidate.
+Beam 74: candidate 64 collides with placed geometry; trying next candidate.
+Beam 74: exhausted retries (2/2) without a valid placement.
+Beam 75: matched to stock '53' -> '53-1' using inventory index 31; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 76: candidate 64 collides with placed geometry; trying next candidate.
+Beam 76: candidate 65 collides with placed geometry; trying next candidate.
+Beam 76: exhausted retries (2/2) without a valid placement.
+Beam 77: candidate 64 collides with placed geometry; trying next candidate.
+Beam 77: candidate 65 collides with placed geometry; trying next candidate.
+Beam 77: exhausted retries (2/2) without a valid placement.
+Beam 78: matched to stock '64' -> '64-1' using inventory index 36; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 79: candidate 65 collides with placed geometry; trying next candidate.
+Beam 79: candidate 71 collides with placed geometry; trying next candidate.
+Beam 79: exhausted retries (2/2) without a valid placement.
+Beam 80: matched to stock '65' -> '65-1' using inventory index 36; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 81: candidate 71 collides with placed geometry; trying next candidate.
+Beam 81: candidate 73 collides with placed geometry; trying next candidate.
+Beam 81: exhausted retries (2/2) without a valid placement.
+Beam 82: matched to stock '71' -> '71-1' using inventory index 41; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 83: candidate 73 collides with placed geometry; trying next candidate.
+Beam 83: candidate 76 collides with placed geometry; trying next candidate.
+Beam 83: exhausted retries (2/2) without a valid placement.
+Beam 84: matched to stock '73' -> '73-1' using inventory index 42; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 85: candidate 76 collides with placed geometry; trying next candidate.
+Beam 85: candidate 97 collides with placed geometry; trying next candidate.
+Beam 85: exhausted retries (2/2) without a valid placement.
+Beam 86: matched to stock '76' -> '76-1' using inventory index 44; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 87: candidate 97 collides with placed geometry; trying next candidate.
+Beam 87: candidate 105 collides with placed geometry; trying next candidate.
+Beam 87: exhausted retries (2/2) without a valid placement.
+Beam 88: matched to stock '97' -> '97-1' using inventory index 61; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 89: candidate 105 collides with placed geometry; trying next candidate.
+Beam 89: candidate 107 collides with placed geometry; trying next candidate.
+Beam 89: exhausted retries (2/2) without a valid placement.
+Beam 90: matched to stock '105' -> '105-1' using inventory index 68; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 91: candidate 107 collides with placed geometry; trying next candidate.
+Beam 91: candidate 116 collides with placed geometry; trying next candidate.
+Beam 91: exhausted retries (2/2) without a valid placement.
+Beam 92: matched to stock '107' -> '107-1' using inventory index 69; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 93: candidate 116 collides with placed geometry; trying next candidate.
+Beam 93: candidate 118 collides with placed geometry; trying next candidate.
+Beam 93: exhausted retries (2/2) without a valid placement.
+Beam 94: matched to stock '116' -> '116-1' using inventory index 74; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 95: candidate 118 collides with placed geometry; trying next candidate.
+Beam 95: candidate 123 collides with placed geometry; trying next candidate.
+Beam 95: exhausted retries (2/2) without a valid placement.
+Beam 96: matched to stock '118' -> '118-1' using inventory index 75; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 97: candidate 123 collides with placed geometry; trying next candidate.
+Beam 97: candidate 142 collides with placed geometry; trying next candidate.
+Beam 97: exhausted retries (2/2) without a valid placement.
+Beam 98: matched to stock '123' -> '123-1' using inventory index 79; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 99: candidate 142 collides with placed geometry; trying next candidate.
+Beam 99: candidate 1 collides with placed geometry; trying next candidate.
+Beam 99: exhausted retries (2/2) without a valid placement.
+Beam 100: matched to stock '142' -> '142-1' using inventory index 96; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 101: candidate 1 collides with placed geometry; trying next candidate.
+Beam 101: candidate 2 collides with placed geometry; trying next candidate.
+Beam 101: exhausted retries (2/2) without a valid placement.
+Beam 102: matched to stock '1' -> '1-1' using inventory index 0; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 103: matched to stock '2' -> '2-1' using inventory index 0; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 104: matched to stock '8' -> '8-1' using inventory index 2; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 105: matched to stock '23' -> '23-1' using inventory index 12; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 106: matched to stock '44' -> '44-1' using inventory index 23; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 107: matched to stock '48' -> '48-1' using inventory index 24; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 108: matched to stock '80' -> '80-1' using inventory index 39; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 109: candidate 89 collides with placed geometry; trying next candidate.
+Beam 109: candidate 91 collides with placed geometry; trying next candidate.
+Beam 109: exhausted retries (2/2) without a valid placement.
+Beam 110: matched to stock '89' -> '89-1' using inventory index 47; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 111: candidate 91 collides with placed geometry; trying next candidate.
+Beam 111: candidate 92 collides with placed geometry; trying next candidate.
+Beam 111: exhausted retries (2/2) without a valid placement.
+Beam 112: matched to stock '91' -> '91-1' using inventory index 48; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 113: candidate 92 collides with placed geometry; trying next candidate.
+Beam 113: candidate 120 collides with placed geometry; trying next candidate.
+Beam 113: exhausted retries (2/2) without a valid placement.
+Beam 114: candidate 92 collides with placed geometry; trying next candidate.
+Beam 114: candidate 120 collides with placed geometry; trying next candidate.
+Beam 114: exhausted retries (2/2) without a valid placement.
+Beam 115: matched to stock '92' -> '92-1' using inventory index 48; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 116: candidate 120 collides with placed geometry; trying next candidate.
+Beam 116: candidate 169 collides with placed geometry; trying next candidate.
+Beam 116: exhausted retries (2/2) without a valid placement.
+Beam 117: matched to stock '120' -> '120-1' using inventory index 66; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 118: candidate 169 collides with placed geometry; trying next candidate.
+Beam 118: candidate 16 collides with placed geometry; trying next candidate.
+Beam 118: exhausted retries (2/2) without a valid placement.
+Beam 119: matched to stock '169' -> '169-1' using inventory index 110; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 120: candidate 16 collides with placed geometry; trying next candidate.
+Beam 120: candidate 47 collides with placed geometry; trying next candidate.
+Beam 120: exhausted retries (2/2) without a valid placement.
+Beam 121: matched to stock '16' -> '16-1' using inventory index 7; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 122: candidate 47 collides with placed geometry; trying next candidate.
+Beam 122: candidate 49 collides with placed geometry; trying next candidate.
+Beam 122: exhausted retries (2/2) without a valid placement.
+Beam 123: matched to stock '47' -> '47-1' using inventory index 22; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 124: candidate 49 collides with placed geometry; trying next candidate.
+Beam 124: candidate 70 collides with placed geometry; trying next candidate.
+Beam 124: exhausted retries (2/2) without a valid placement.
+Beam 125: matched to stock '49' -> '49-1' using inventory index 22; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 126: candidate 70 collides with placed geometry; trying next candidate.
+Beam 126: candidate 125 collides with placed geometry; trying next candidate.
+Beam 126: exhausted retries (2/2) without a valid placement.
+Beam 127: matched to stock '70' -> '70-1' using inventory index 31; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 128: candidate 125 collides with placed geometry; trying next candidate.
+Beam 128: candidate 21 collides with placed geometry; trying next candidate.
+Beam 128: exhausted retries (2/2) without a valid placement.
+Beam 129: matched to stock '125' -> '125-1' using inventory index 65; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 130: candidate 21 collides with placed geometry; trying next candidate.
+Beam 130: candidate 131 collides with placed geometry; trying next candidate.
+Beam 130: exhausted retries (2/2) without a valid placement.
+Beam 131: matched to stock '21' -> '21-1' using inventory index 9; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 132: candidate 131 collides with placed geometry; trying next candidate.
+Beam 132: candidate 98 collides with placed geometry; trying next candidate.
+Beam 132: exhausted retries (2/2) without a valid placement.
+Beam 133: matched to stock '131' -> '131-1' using inventory index 69; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 134: candidate 98 collides with placed geometry; trying next candidate.
+Beam 134: candidate 17 collides with placed geometry; trying next candidate.
+Beam 134: exhausted retries (2/2) without a valid placement.
+Beam 135: matched to stock '98' -> '98-1' using inventory index 46; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 136: candidate 17 collides with placed geometry; trying next candidate.
+Beam 136: candidate 43 collides with placed geometry; trying next candidate.
+Beam 136: exhausted retries (2/2) without a valid placement.
+Beam 137: matched to stock '17' -> '17-1' using inventory index 7; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 138: candidate 43 collides with placed geometry; trying next candidate.
+Beam 138: candidate 101 collides with placed geometry; trying next candidate.
+Beam 138: exhausted retries (2/2) without a valid placement.
+Beam 139: matched to stock '43' -> '43-1' using inventory index 19; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 140: candidate 101 collides with placed geometry; trying next candidate.
+Beam 140: candidate 135 collides with placed geometry; trying next candidate.
+Beam 140: exhausted retries (2/2) without a valid placement.
+Beam 141: matched to stock '101' -> '101-1' using inventory index 46; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 142: matched to stock '135' -> '135-1' using inventory index 67; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 143: matched to stock '148' -> '148-1' using inventory index 78; tried 0 failures before accept; result solid=True, surplus offcuts=2.
+Beam 144: candidate 66 collides with placed geometry; trying next candidate.
+Beam 144: candidate 84 collides with placed geometry; trying next candidate.
+Beam 144: exhausted retries (2/2) without a valid placement.
+Beam 145: candidate 66 collides with placed geometry; trying next candidate.
+Beam 145: candidate 84 collides with placed geometry; trying next candidate.
+Beam 145: exhausted retries (2/2) without a valid placement.
+Beam 146: candidate 66 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 146: candidate 84 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 146: exhausted retries (2/2) without a valid placement.
+Beam 147: candidate 66 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 147: candidate 84 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 147: exhausted retries (2/2) without a valid placement.
+Beam 148: candidate 66 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 148: candidate 84 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 148: exhausted retries (2/2) without a valid placement.
+Beam 149: candidate 66 collides with placed geometry; trying next candidate.
+Beam 149: candidate 84 collides with placed geometry; trying next candidate.
+Beam 149: exhausted retries (2/2) without a valid placement.
+Beam 150: candidate 66 collides with placed geometry; trying next candidate.
+Beam 150: candidate 84 collides with placed geometry; trying next candidate.
+Beam 150: exhausted retries (2/2) without a valid placement.
+Beam 151: candidate 66 collides with placed geometry; trying next candidate.
+Beam 151: candidate 84 collides with placed geometry; trying next candidate.
+Beam 151: exhausted retries (2/2) without a valid placement.
+Beam 152: candidate 66 collides with placed geometry; trying next candidate.
+Beam 152: candidate 84 collides with placed geometry; trying next candidate.
+Beam 152: exhausted retries (2/2) without a valid placement.
+Beam 153: candidate 66 collides with placed geometry; trying next candidate.
+Beam 153: candidate 84 collides with placed geometry; trying next candidate.
+Beam 153: exhausted retries (2/2) without a valid placement.
+Beam 154: candidate 66 collides with placed geometry; trying next candidate.
+Beam 154: candidate 84 collides with placed geometry; trying next candidate.
+Beam 154: exhausted retries (2/2) without a valid placement.
+Beam 155: candidate 66 collides with placed geometry; trying next candidate.
+Beam 155: candidate 84 collides with placed geometry; trying next candidate.
+Beam 155: exhausted retries (2/2) without a valid placement.
+Beam 156: candidate 66 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 156: candidate 84 cut dimensions do not match the desired beam slice, trying next candidate.
+Beam 156: exhausted retries (2/2) without a valid placement.
