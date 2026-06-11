@@ -92,6 +92,12 @@ if exist "%OUT_DIR%\runtimes" (
   )
 )
 
+copy /Y "%ROOT_DIR%\NOTICE" "%STAGING_DIR%\NOTICE" >nul
+if errorlevel 1 (
+  popd
+  exit /b 1
+)
+
 if exist "%OUT_DIR%\%BASE_NAME%.pdb" (
   copy /Y "%OUT_DIR%\%BASE_NAME%.pdb" "%STAGING_DIR%\" >nul
   if errorlevel 1 (
